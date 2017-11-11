@@ -41,7 +41,7 @@ def addBinary(a, b):
         # case 3
         elif a[i] == '0' and b[i] == '1':
             if carry == '1':
-                a[i]  = '0'
+                a[i] = '0'
             else:
                 a[i] = '1'
   

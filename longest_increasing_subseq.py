@@ -64,7 +64,6 @@ def lis(seq):
     # hence initialize dp to 1
     dp = [1] * len(seq)
     max_len = 0
-    
 
     for i in range(1, len(seq)):
         for j in range(i):

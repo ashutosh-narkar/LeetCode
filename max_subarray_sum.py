@@ -35,6 +35,7 @@ def maxSubArray(numbers):
     #print 'Max subarray {}'.format(numbers[idx1:idx2+1])
     return max_sum
 
+
 def maxSubArray_2(numbers):
     max_sum = numbers[0]
     current_sum = numbers[0]
@@ -46,8 +47,9 @@ def maxSubArray_2(numbers):
     return max_sum
 
 if __name__ == '__main__':
-    #data = [1,2,3,-5,-4,6,7,8,-10,45,6,7,8,-10]
-    data  = [1, 2, -4, 1, 3, -2, 3, -1]
+    # data = [1,2,3,-5,-4,6,7,8,-10,45,6,7,8,-10]
+    # data = [1, 2, -4, 1, 3, -2, 3, -1]
+    data = [2,3,4,5,7]
     _sum1 = maxSubArray_2(data)
     _sum2 = maxSubArray(data)
     print 'Using iterative_2: Max sum is {}'.format(_sum1)

@@ -28,9 +28,8 @@ def primes(n):
        primfac.append(n)
     return primfac
 
-def generate_factors(p):
-   
 
+def generate_factors(p):
     result = []
    
     for i in range(1, len(p)):

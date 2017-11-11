@@ -9,7 +9,7 @@ def segregate(numbers):
     if not numbers:
         raise ValueError('No  input')
 
-    low, mid  = 0, 0
+    low, mid = 0, 0
     high = len(numbers) - 1
 
     # move low to a position where value is not 0

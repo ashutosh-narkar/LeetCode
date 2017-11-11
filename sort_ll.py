@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 '''
+**** FOR SORTING A LL USING MERGE SORT LOOK AT sort_ll_1.py ****
+
 Sort a linked list in O(n log n) time using constant space complexity.
 
 Algorithm: Bottom-up Merge Sort

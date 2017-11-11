@@ -37,19 +37,3 @@ def get_reverse_iter(sentence):
         n -= 1
 
     return ' '.join(sentence)
-
-
-if __name__ == '__main__':
-    #print get_reverse_rec(sys.argv[1:])
-    #print get_reverse_iter(sys.argv[1:])
-    
-
-    # s = '  '
-    if not s or len(s.strip()) == 0:
-        return ''    
-  
-    # s = '  a'
-    if len(s.split()) == 1:
-        return s.strip()
-
-    print get_reverse_iter('hello world!'.split())

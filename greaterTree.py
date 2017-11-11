@@ -30,40 +30,40 @@ While traversing we keep track of sum of keys which is the sum of all the keys g
 
 
 # Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+class TreeNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
-class Solution(object):
-    def convertBST(self, root):
-        """
-        :type root: TreeNode
-        :rtype: TreeNode
-        """
 
-        if not root:
-            return None
+def convert_bst(root):
+    """
+    :type root: TreeNode
+    :rtype: TreeNode
+    """
 
-        # Initialize sum
-        self.sum = 0
+    if not root:
+        return None
 
-        def generate_greater_tree(node):
+    # Initialize sum
+    result = [0]
 
-            # Base Case
-            if not node:
-                return None
+    generate_greater_tree(root, result)
+    return root
 
-            # Recur for right subtree
-            generate_greater_tree(node.right)
 
-            # Update Sum
-            node.val += self.sum
-            self.sum = node.val
+def generate_greater_tree(node, result):
+    # Base Case
+    if not node:
+        return None
 
-            # Recur for left subtree
-            generate_greater_tree(node.left)
+    # Recur for right subtree
+    generate_greater_tree(node.right, result)
 
-        generate_greater_tree(root)
-        return root
+    # Update Sum
+    node.val += result[0]
+    result[0] = node.val
+
+    # Recur for left subtree
+    generate_greater_tree(node.left, result)
