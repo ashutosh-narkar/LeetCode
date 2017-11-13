@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-'''
-Median of Two Sorted Arrays 
+"""
+Median of Two Sorted Arrays
 
-There are two sorted arrays A and B of size m and n respectively. 
-Find the median of the two sorted arrays. 
+There are two sorted arrays A and B of size m and n respectively.
+Find the median of the two sorted arrays.
 The overall run time complexity should be O(log (m+n)).
 
 Time Complexity: O(log n + log m)
@@ -11,14 +11,14 @@ Algorithmic Paradigm: Divide and Conquer
 
 
 http://www.geeksforgeeks.org/median-of-two-sorted-arrays-of-different-sizes/
-'''
+"""
+
 
 def findMedianSortedArrays(A, B):
-    '''
-    This method assumes that len(A) <= len(B) 
-    '''
+    """
+    This method assumes that len(A) <= len(B)
+    """
 
-   
     # Smaller array has 1 element
     if len(A) == 1:
 
@@ -34,7 +34,6 @@ def findMedianSortedArrays(A, B):
             val = getMedian([B[middle_index -1], B[middle_index + 1], A[0]])
             return (val + middle) / 2.0
 
-
         # larger array has even length
         else:
             middle_index = len(B) / 2
@@ -42,8 +41,6 @@ def findMedianSortedArrays(A, B):
             mid2 = B[middle_index - 1]
 
             return getMedian([mid1, mid2, A[0]]) 
-            
-
 
     # Smaller array has 2 elements
     elif len(A) == 2:
@@ -66,7 +63,6 @@ def findMedianSortedArrays(A, B):
             mid2 = B[middle_index - 1]
 
             return getMedian([mid1, mid2, max(B[middle_index - 2], A[0]), min(B[middle_index + 1], A[1])])
-
 
     midA = len(A) / 2
     midB = len(B) / 2
@@ -95,6 +91,7 @@ def getMedian(a):
         return (sum(a) - max(a) - min(a)) / 2.0
 
 
+# Recursive solution
 def findMedian(a, b):
 
     if a and not b:

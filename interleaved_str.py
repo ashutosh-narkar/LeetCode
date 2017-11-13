@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 Given s1, s2, s3, find whether s3 is formed by the interleaving of s1 and s2.
 
 For example,
@@ -13,91 +13,70 @@ When s3 = 'aadbbbaccc', return false.
 M = len(s1), N = len(s2)
 Time Complexity: O(MN)
 Auxiliary Space: O(MN)
-'''
+"""
 
-def isInterleave(s1, s2, s3):
 
-    m = len(s1)
-    n = len(s2)
-
-    # s3 can be an interleaving of s1 and s2 only if sum
-    # of lengths of s1 & s2 is equal to length of s3.
-    if m + n != len(s3):
+def is_interleave(s1, s2, s3):
+    """
+    :type s1: str
+    :type s2: str
+    :type s3: str
+    :rtype: bool
+    """
+    if len(s3) != len(s1) + len(s2):
         return False
 
-    res = []
-    
-    # Initialize all values as false
-    row = [False] * (n + 1)
-    for i in range(m + 1):
-        res.insert(i, row)
+    # dp table represents if s3 is interleaving at (i+j)th position
+    # when s1 is at ith position, and s2 is at jth position.
+    dp = [[False] * (len(s2) + 1) for _ in range(len(s1) + 1)]
 
+    # If both s1 and s2 are empty, s3 is empty too, and it is considered interleaving
+    dp[0][0] = True
 
-    for i in range(m + 1):
-        for j in range(n + 1):
+    # s1 is empty
+    # Check if previous s2 position is interleaving and current
+    # s2 position char is equal to s3 current position char,
+    # it is considered interleaving
+    for i in range(1, len(s2) + 1):
+        dp[0][i] = dp[0][i - 1] and s2[i - 1] == s3[i - 1]
 
-            # two empty string have an empty
-            # string as an interleaving
-            if i == 0 and j == 0:
-                res[i][i] = True
+    # s2 is empty
+    for i in range(1, len(s1) + 1):
+        dp[i][0] = dp[i - 1][0] and s1[i - 1] == s3[i - 1]
 
-            # s1 is empty
-            elif i == 0 and s2 and s2[j - 1] == s3[ i + j - 1]:   # We need to check if s1 and/or s2 exits to prevent indexing an empty string
-                res[i][j] = res[i][j - 1]
+    for i in range(1, len(s1) + 1):
+        for j in range(1, len(s2) + 1):
+            val1 = dp[i][j - 1] and s2[j - 1] == s3[i + j - 1]  # current char of s2 matches current char of s3
+            val2 = dp[i - 1][j] and s1[i - 1] == s3[i + j - 1]  # current char of s1 matches current char of s3
+            dp[i][j] = val1 or val2
 
-            # s2 is empty
-            elif j == 0 and s1 and s1[i - 1] == s3[i + j - 1]:
-                res[i][j] == res[i - 1][j]
-
-
-            # Current character of s3 matches with current character of s1,
-            # but doesn't match with current character of s2
-            elif s1 and s1[i - 1] == s3[i + j - 1] and s2 and s2[j - 1] != s3[i + j - 1]:
-                res[i][j] = res[i - 1][j] 
-
-
-            # Current character of s3 matches with current character of s2,
-            # but doesn't match with current character of s1
-            elif s1 and s1[i - 1] != s3[i + j - 1] and s2 and s2[j - 1] == s3[i + j - 1]:
-                res[i][j] = res[i][j - 1]
-
-            # Current character of s3 matches with current character of s1 and s2
-            elif s1 and s1[i - 1] == s3[i + j - 1] and s2 and s2[j - 1] == s3[i + j - 1]:
-                res[i][j] = res[i - 1][j] or res[i][j - 1] 
-
-            # Current character of s3 matches with neither s1 or s2 current character
-            else:
-                res[i][j] = False
-
-
-    return res[m][n]
-
+    return dp[len(s1)][len(s2)]    # dp[-1][-1]
 
 
 if __name__ == '__main__':
 
-    assert isInterleave("XXY", "XXZ", "XXZXXXY") == False
-    assert isInterleave("XY" ,"WZ" ,"WZXY") == True
-    assert isInterleave("XY", "X", "XXY") == True
-    assert isInterleave("XXY", "XXZ", "XXXXZY") == True
-    assert isInterleave("abcd", "xyz", "axybczd") == True
-    assert isInterleave("AB", "CD", "CADB") == True
-    assert isInterleave("AB" ,"CD" ,"CDAB") == True
-    assert isInterleave("AB" , "A" , "AAB") == True
-    assert isInterleave("A" ,"AB" ,"ABA") == True
-    assert isInterleave("A" ,"AB", "BAA") == False
-    assert isInterleave("ACA" ,"DAS" ,"DAACSA") == True
-    assert isInterleave("ACA" ,"DAS" ,"DAASCA") == True
-    assert isInterleave("A", "AB" ,"AAB") == True
-    assert isInterleave("AAB" ,"AAC" ,"AACAAB") == True
-    assert isInterleave("101", "01", "10011") == True
-    assert isInterleave("101" ,"01" ,"11010") == False
-    assert isInterleave("A" ,"C", "CA") == True
-    assert isInterleave("A", "C", "CD") == False
-    assert isInterleave("ACA" ,"DAS", "ADASAC") == False
-    assert  isInterleave("YX", "X", "XXY") == False
+    assert is_interleave("XXY", "XXZ", "XXZXXXY") == False
+    assert is_interleave("XY" ,"WZ" ,"WZXY") == True
+    assert is_interleave("XY", "X", "XXY") == True
+    assert is_interleave("XXY", "XXZ", "XXXXZY") == True
+    assert is_interleave("abcd", "xyz", "axybczd") == True
+    assert is_interleave("AB", "CD", "CADB") == True
+    assert is_interleave("AB" ,"CD" ,"CDAB") == True
+    assert is_interleave("AB" , "A" , "AAB") == True
+    assert is_interleave("A" ,"AB" ,"ABA") == True
+    assert is_interleave("A" ,"AB", "BAA") == False
+    assert is_interleave("ACA" ,"DAS" ,"DAACSA") == True
+    assert is_interleave("ACA" ,"DAS" ,"DAASCA") == True
+    assert is_interleave("A", "AB" ,"AAB") == True
+    assert is_interleave("AAB" ,"AAC" ,"AACAAB") == True
+    assert is_interleave("101", "01", "10011") == True
+    assert is_interleave("101" ,"01" ,"11010") == False
+    assert is_interleave("A" ,"C", "CA") == True
+    assert is_interleave("A", "C", "CD") == False
+    assert is_interleave("ACA" ,"DAS", "ADASAC") == False
+    assert  is_interleave("YX", "X", "XXY") == False
 
-    print 'Tests  passed'
+    print 'Tests passed'
 
 
 

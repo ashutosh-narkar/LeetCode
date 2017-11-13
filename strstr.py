@@ -1,107 +1,109 @@
 #!/usr/bin/env python
-'''
+"""
 Implement strStr().
 
 Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
 
 Good Explanation: https://www.topcoder.com/community/data-science/data-science-tutorials/introduction-to-string-searching-algorithms/
 
-OK-OK Explanation - http://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/
-'''
+**** For explanation of how to create the KMP table look at shortest_palindrome.py ****
+"""
+# Solution 1: KMP algorithm
 
-def strStr(self, haystack, needle):
 
+def str_str_kmp(haystack, needle):
+    """
+    :type haystack: str
+    :type needle: str
+    :rtype: int
+    """
     if not needle:
         return 0
-     
-    # create lps that will hold the longest prefix suffix values for pattern
-    lps = computeLps(needle)
+
+    if not haystack or len(needle) > len(haystack):
+        return -1
+
+    table = getKMPtable(needle)
+
     i = 0
     j = 0
 
-     
     while i < len(haystack):
 
+        # match
         if haystack[i] == needle[j]:
             i += 1
             j += 1
 
-         
         # pattern found
         if j == len(needle):
-            return i-j
+            return i - j
 
         # mismatch after j steps
         elif i < len(haystack) and haystack[i] != needle[j]:
- 
+
             # move ahead in the string if we are at beginning of pattern. May be we find a match later
             if j == 0:
                 i += 1
 
             # we do not need to match all characters since, we know pat[0 to j-1] matches txt[i-j to i-1]
             else:
-                j = lps[j-1]
+                j = table[j - 1]
 
     return -1
 
-        
 
-def computeLps(needle):
+def getKMPtable(s):
+    # get lookup table
+    table = [0] * len(s)
 
-    # L[0] = 0  always
-    lps = [0] * len(needle)
+    index = 0
 
-    # length of the previous longest prefix suffix
-    lon = 0
-
-    i = 1
-
-    while i < len(needle):
-        if needle[lon] == needle[i]:
-            lon += 1
-            lps[i] = lon
-            i += 1
+    for i in range(1, len(s)):
+        if s[index] == s[i]:
+            table[i] = table[i - 1] + 1
+            index += 1
 
         else:
-            if lon == 0:
-                lps[i] = 0
-                i += 1
+            index = table[i - 1]
 
-            else:
-                # go to the next best "candidate" partial match
-                lon = lps[lon-1]
+            while index > 0 and s[index] != s[i]:
+                index = table[index - 1]
 
-    return lps
+            if s[index] == s[i]:
+                index += 1
+
+            table[i] = index
+
+    return table
 
 
+"""
+Solution 2: Brute Force
 
-#####################################################################################################
-'''
-Solution 2: Brute Force . Runtime: 
-
-The “naive” approach is easy to understand and implement but it can be too slow in some cases. 
-If the length of the text is n and the length of the pattern m, in the worst case it may take as much as (n * m) iterations to complete the task.
+The "naive" approach is easy to understand and implement but it can be too slow in some cases.
+If the length of the text is n and the length of the pattern m,
+in the worst case it may take as much as (n * m) iterations to complete the task.
 
 It should be noted though, that for most practical purposes, which deal with texts based on human languages, 
 this approach is much faster since the inner loop usually quickly finds a mismatch and breaks. 
-A problem arises when we are faced with different kinds of “texts,” such as the genetic code.
-'''
+A problem arises when we are faced with different kinds of "texts", such as the genetic code.
+"""
+
 
 # @param haystack, a string
 # @param needle, a string
 # @return an integer
-def strStr(haystack, needle):
+def str_str_brute(haystack, needle):
 
     if not needle:
         return 0
-
 
     lh = len(haystack)
     ln = len(needle)
 
     if ln > lh:
         return -1
-        
 
     # Iterate over 'lh-ln + 1' since it indicates the possible starting points
     # in the give text (or haystack) in which the pattern(or needle can be searched)
@@ -117,7 +119,3 @@ def strStr(haystack, needle):
                 return i
 
     return -1
-
-
-
-

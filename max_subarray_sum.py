@@ -36,6 +36,7 @@ def maxSubArray(numbers):
     return max_sum
 
 
+# Kadane's Algorithm
 def maxSubArray_2(numbers):
     max_sum = numbers[0]
     current_sum = numbers[0]
@@ -49,7 +50,9 @@ def maxSubArray_2(numbers):
 if __name__ == '__main__':
     # data = [1,2,3,-5,-4,6,7,8,-10,45,6,7,8,-10]
     # data = [1, 2, -4, 1, 3, -2, 3, -1]
-    data = [2,3,4,5,7]
+    #data = [2,3,4,5,7]
+    #data = [-13, -3, -25, -20, -3, -16, -23, -12, -5, -22, -15, -4, -7]
+    #data = [-2,1,-3,4,-1,2,1,-5,4]
     _sum1 = maxSubArray_2(data)
     _sum2 = maxSubArray(data)
     print 'Using iterative_2: Max sum is {}'.format(_sum1)
