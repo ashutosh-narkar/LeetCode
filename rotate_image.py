@@ -21,7 +21,8 @@ first reverse left to right, then swap the symmetry
 
 '''
 
- def rotate_clockwise(matrix):
+
+def rotate_clockwise(matrix):
 
     if not matrix:
         return

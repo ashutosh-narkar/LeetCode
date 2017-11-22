@@ -51,7 +51,6 @@ def alien_order(words):
 
                 break
 
-
     # bfs on the graph
     q = deque()
     for key, val in degree.items():

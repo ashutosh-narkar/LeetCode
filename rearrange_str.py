@@ -76,7 +76,6 @@ def rearrangeString(string, k):
     # all the characters left
     res = ''.join(c * n for c, n in stack)
 
-
     # padding
     for i, r in enumerate(res):
         lst[i % (len(lst) - 1)].append(r)

@@ -18,7 +18,7 @@ import sys
 # Step 3: Update the low pointer if a duplicate character found
 
 
-def lengthOfLongestSubstring(s):
+def longest_substring_1(s):
     """
     :type s: str
     :rtype: int
@@ -30,27 +30,31 @@ def lengthOfLongestSubstring(s):
     charIndex = {}
 
     low, high = 0, 0
-    maxLength = 0
+    max_length = 0
+    result = ""
 
     while high < len(s):
         if s[high] in charIndex:
             low = max(low, charIndex[s[high]] + 1)    # We dont do low = charCount[s[high]] + 1 as low may
-                                                       # point to a index that was already removed from the dict.
-                                                        # eg. 'abba'
+                                                      # point to a index that was already removed from the dict.
+                                                      # eg. 'abba'
 
         charIndex[s[high]] = high
-        maxLength = max(maxLength, high - low + 1)
+
+        # update result
+        curr_len = high - low + 1
+        if max_length < curr_len:
+            max_length = curr_len
+            result = s[low: high + 1]
+
         high += 1
 
-    return maxLength
-
-
-
+    return result
 
 
 # Solution 2: Don't use
 
-def longest_substring(data):
+def longest_substring_2(data):
     if not data:
         return
 
@@ -86,6 +90,9 @@ def getIndex(s, index):
 
 
 if __name__ == '__main__':
-    res = longest_substring(sys.argv[1])
-    print 'Longest substring w/o repeated chars: "{}" len: {}'.format(res, len(res))    
-        
+    res = longest_substring_1(sys.argv[1])
+    print 'Longest substring w/o repeated chars: "{}" len: {}'.format(res, len(res))
+
+    res = longest_substring_2(sys.argv[1])
+    print 'Longest substring w/o repeated chars: "{}" len: {}'.format(res, len(res))
+

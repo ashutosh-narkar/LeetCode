@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 '''
-Given an array of integers, every element appears three times except for one, which appears exactly once. Find that single one.
+Given an array of integers, every element appears three times except for one, which appears exactly once.
+Find that single one.
 
 Explanation:
 
