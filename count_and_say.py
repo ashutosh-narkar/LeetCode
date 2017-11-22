@@ -31,7 +31,7 @@ def countAndSay(n):
 
     for i in range(1, n):
         strn = getSeq(str1)
-        str1 =  strn
+        str1 = strn
     return strn
 
 
